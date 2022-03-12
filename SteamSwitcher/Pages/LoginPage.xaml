@@ -1,0 +1,38 @@
+﻿<Page x:Class="SteamSwitcher.View.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SteamSwitcher.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="409.901" d:DesignWidth="612.871"
+      xmlns:viewmodels ="clr-namespace:SteamSwitcher.ViewModel"
+      Title="LoginPage">
+
+    <Page.DataContext>
+        <viewmodels:LoginPageViewModel/>
+    </Page.DataContext>
+
+
+    <Grid>
+        <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Label  Foreground="{DynamicResource MaterialDesignLightBackground}"  FontSize="20" Content="SteamUrl:" ToolTip="You can find it on your steam account page in adress bar"/>
+                <TextBox  Foreground="{DynamicResource MaterialDesignLightBackground}" Text="{Binding UrlText, Mode=TwoWay}" FontSize="20" Width="200"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Label  Foreground="{DynamicResource MaterialDesignLightBackground}"  FontSize="20" Content="Login:"/>
+                <TextBox  Foreground="{DynamicResource MaterialDesignLightBackground}"  Text="{Binding LoginText, Mode=TwoWay}" FontSize="20" Width="200"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Label  Foreground="{DynamicResource MaterialDesignLightBackground}"  FontSize="20" Content="Password:"/>
+                <TextBox Foreground="{DynamicResource MaterialDesignLightBackground}"  Text="{Binding PassText, Mode=TwoWay}" FontSize="20" Width="200"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Label  Foreground="{DynamicResource MaterialDesignLightBackground}"  FontSize="20" Content="Tag:"/>
+                <TextBox  Foreground="{DynamicResource MaterialDesignLightBackground}"  Text="{Binding TagText, Mode=TwoWay}" FontSize="20" Width="200" Cursor="IBeam"/>
+            </StackPanel>
+            <Button Margin="0,15,0,0" Command="{Binding Login, IsAsync=True}" Content="Add Account" FontSize="20" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Page>

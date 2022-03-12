@@ -1,0 +1,57 @@
+﻿<Page x:Class="SteamSwitcher.View.AccountList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SteamSwitcher.View"
+      mc:Ignorable="d" 
+        Name="mainWnd"
+      d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:viewmodels ="clr-namespace:SteamSwitcher.ViewModel"
+      Title="AccounList">
+
+    <Page.DataContext>
+        <viewmodels:ListViewModel/>
+    </Page.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ListView Name="lst" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectedIndex="{Binding SelectedIndex,Mode=TwoWay}" Grid.Row="1" ItemsSource="{Binding Accounts}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding ImageUrl}"/>
+                            <StackPanel Margin="9,0,0,0" Grid.Column="1" Orientation="Vertical">
+                            <Label FontSize="20" >
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  Foreground="{DynamicResource MaterialDesignLightBackground}"  Text="{Binding ViewName}"/>
+                                    <TextBlock Text=" " />
+                                    <TextBlock Text="{Binding tag}" FontStyle="Oblique" Foreground="Orange"/>
+                                </StackPanel>
+                            </Label>
+                            <Label  Foreground="Gray"  FontStyle="Italic" FontSize="17" Content="{Binding login}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button  Margin="0,0,5,0"  Content="Edit"  Width="70" HorizontalAlignment="Left"  Command="{ Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.Edit}" CommandParameter="{Binding ID}" Cursor="Hand" />
+                                <Button Margin="0,0,5,0"  Content="Delete"  Width="80" HorizontalAlignment="Left"  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.DeleteAccount}" CommandParameter="{Binding ID}" Cursor="Hand" />
+                                <Button Content="Export Settings"  Width="140" HorizontalAlignment="Left" Cursor="Hand" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.Import}" CommandParameter="{Binding ID}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        <StackPanel HorizontalAlignment="Center" Grid.Row="0" Orientation="Horizontal">
+            <Button Margin="0,0,10,0" FontSize="20" Command="{Binding AddAccount, IsAsync=True}" Content="Add Account" />
+            <Button FontSize="18" Content="Run and Login" Cursor="Hand" ToolTip="Run the selected account from list below" Command="{Binding Login}"/>
+        </StackPanel>
+    </Grid>
+</Page>

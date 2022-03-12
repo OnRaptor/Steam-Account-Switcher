@@ -1,0 +1,79 @@
+﻿<Page x:Class="SteamSwitcher.View.ImportPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SteamSwitcher.View"
+      mc:Ignorable="d"
+      d:DesignHeight="409.901" d:DesignWidth="612.871"
+      xmlns:viewmodels ="clr-namespace:SteamSwitcher.ViewModel"
+      Title="LoginPage">
+
+    <Page.DataContext>
+        <viewmodels:ImportViewModel/>
+    </Page.DataContext>
+    
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Margin="2" Content="Back" Command="{Binding Back}"/>
+            <Label VerticalAlignment="Center" Foreground="{DynamicResource MaterialDesignLightBackground}" Content="Select Folders to Export" />
+        </StackPanel>
+
+        <ListBox Grid.Row="1" Grid.Column="0"   SelectionMode="Multiple"  Name="fld_lst" Margin="3" Foreground="GhostWhite" ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Games}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="16">
+                            <Hyperlink >
+                                <TextBlock Text="{Binding id}" ToolTip="Click to see game in steam"/>
+                                    <Hyperlink.InputBindings>
+                                        <MouseBinding Gesture="LeftClick" Command="{Binding RelativeSource={
+                               RelativeSource FindAncestor, 
+                               AncestorType=Page},
+                               Path=DataContext.OpenUrl}" CommandParameter="{Binding link}"/>
+                                    </Hyperlink.InputBindings>
+                            </Hyperlink>
+                        </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListView Grid.Row="1"  ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount,Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding ImageUrl}"/>
+                        <StackPanel Margin="9,0,0,0" Grid.Column="1" Orientation="Vertical">
+                            <Label FontSize="20" >
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  Foreground="{DynamicResource MaterialDesignLightBackground}"  Text="{Binding ViewName}"/>
+                                    <TextBlock Text=" " />
+                                    <TextBlock Text="{Binding tag}" FontStyle="Oblique" Foreground="Orange"/>
+                                </StackPanel>
+                            </Label>
+                            <Label  Foreground="Gray"  FontStyle="Italic" FontSize="17" Content="{Binding login}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Label Foreground="{StaticResource MaterialDesignLightBackground}" Grid.Row="0" Margin="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Center" Cursor="Hand">
+            <TextBlock Text="{Binding OriginID}">
+                <Run>Select Account to Import from</Run>
+            </TextBlock>
+        </Label>
+        <Button Grid.Row="0" Margin="2" Grid.Column="1" Content="Import To" CommandParameter="{Binding  SelectedItems, ElementName=fld_lst}" Command="{ Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},Path=DataContext.Import}"  Width="110" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand"/>
+    </Grid>
+</Page>
