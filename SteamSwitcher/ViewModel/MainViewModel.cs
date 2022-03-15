@@ -11,6 +11,7 @@ using DevExpress.Mvvm;
 using SteamSwitcher.View;
 using System.IO;
 using SteamSwitcher.Model;
+using System.Timers;
 
 namespace SteamSwitcher.ViewModel
 {
@@ -19,12 +20,29 @@ namespace SteamSwitcher.ViewModel
         public Page CurrentPage { get; set; }
         public string SteamInfo { get; set; }
 
+        public ICommand Restart
+        {
+            get
+            {
+                return new DelegateCommand(() => {
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Application.Current.Shutdown();
+                });
+            }
+        }
+
         public MainViewModel()
         {
 
             Navigation.ChangePage = (p) => CurrentPage = p;
             AccountDataStorage.Init();
-            SteamInfo =  "Steam Status: " + SteamProvider.SteamStatus() + "     Steam Location: " + SteamProvider.location + "      Steam " + (SteamProvider.SteamRunning() ? "" : "not ") + "Running";
+            Timer tmr = new Timer(2000);
+            tmr.Start();
+            tmr.Elapsed += (s, e) =>
+            {
+                SteamInfo = "Steam Status: " + SteamProvider.SteamStatus() + "     Steam Location: " + SteamProvider.location + "      Steam " + (SteamProvider.SteamRunning() ? "" : "not ") + "Running";
+            };
+
 
             if (AccountDataStorage.ReadAccounts().Count == 0)
                 Navigation.ChangePage(StaticData.LoginP);

@@ -25,10 +25,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="1">
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <!--<Button Command="{Binding Restart}" Margin="1" FontSize="9" Content="Restart" Height="20"/>-->
+        <Label >
             <TextBlock  Foreground="{DynamicResource MaterialDesignLightBackground}" Style="{DynamicResource MaterialDesignTitleTextBlock}" FontSize="10" Text="{Binding SteamInfo}"/>
         </Label>
-
+        </StackPanel>
         <Frame Grid.Row="0" Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
 
     </Grid>

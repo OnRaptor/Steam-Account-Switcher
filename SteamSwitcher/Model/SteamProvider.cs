@@ -39,7 +39,9 @@ namespace SteamSwitcher.Model
 
         public static bool Login(string login, string pass)
         {
-            LogOut();
+            if (SteamRunning())
+                LogOut();
+
             System.Threading.Thread.Sleep(3000);
             Process steam_process = new Process() { 
             StartInfo = new ProcessStartInfo()
@@ -53,7 +55,7 @@ namespace SteamSwitcher.Model
         public static bool SteamRunning()
         {
             //true - running, false not
-            return Process.GetProcessesByName("steam.exe").Length != 0;
+            return Process.GetProcessesByName("steam").Any();
         }
 
         public static string GetLocationSteam(string Inst = "InstallPath", string Source = "SourceModInstallPath")
